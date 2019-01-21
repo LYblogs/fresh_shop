@@ -1,0 +1,60 @@
+{% extends 'base_main.html'%}
+{%block title%}天天生鲜-用户中心
+{% endblock%}
+
+{% block search%}
+	<div class="search_bar clearfix">
+		<a href="{% url 'goods:index' %}" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+		<div class="search_con fr">
+			<input type="text" id="my_button1" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" onclick="my_value()" class="input_btn fr" name="" value="搜索">
+		</div>		
+	</div>
+    <script>
+    function my_value(){
+    	 my_text=$('#my_button1').val()
+         location.href = '{% url 'goods:goods_search'%}?word='+my_text
+       }
+</script>
+{% endblock%}
+
+{% block content%}
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="{%url 'user:user_info'%}" class="active">· 个人信息</a></li>
+				<li><a href="{% url 'order:user_order'%}">· 全部订单</a></li>
+				<li><a href="{% url 'user:user_site'%}">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<div class="info_con clearfix">
+				<h3 class="common_title2">基本信息</h3>
+						<ul class="user_info_list">
+							<li><span>用户名：</span>{{user.username}}</li>
+							<li><span>联系方式：</span>18210569700</li>
+							<li><span>联系地址：</span>北京市昌平区</li>			
+						</ul>
+				</div>
+				
+				<h3 class="common_title2">最近浏览</h3>
+			<div class="has_view_list">
+					<ul class="goods_type_list clearfix">
+				{% for val in recent_goods%}
+				<li>
+					<a href="{%url 'goods:detail' val.goods_id_id%}"><img src="/media/{{val.goods_id.goods_front_image}}"></a>
+					<h4><a href="detail.html">{{val.goods_id.name}}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{val.goods_id.market_price}}</span>
+						<span class="unit">{{val.goods_id.market_price}}/500g</span>
+						<a href="#" class="add_goods" title="加入购物车"></a>
+					</div>
+				</li>
+				{% endfor%}
+			</ul>
+		</div>
+		</div>
+	</div>
+{%endblock%}
